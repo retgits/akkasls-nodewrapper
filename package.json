@@ -1,0 +1,48 @@
+{
+    "name": "@retgits/akkasls-nodewrapper",
+    "version": "0.1.0",
+    "description": "A NodeJS wrapper for the Akka Serverless CLI",
+    "scripts": {
+        "pretest": "npm run lint",
+        "test": "./node_modules/.bin/mocha -r ts-node/register 'test/**/*.ts'",
+        "watch": "tsc --watch",
+        "compile": "rm -rf ./lib && tsc",
+        "lint": "eslint src/**/*.ts",
+        "build": "npm run compile",
+        "release": "standard-version && git push --follow-tags origin main && npm publish --access public"
+    },
+    "main": "./lib/index.js",
+    "typings": "./lib/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/retgits/akkasls-nodewrapper"
+    },
+    "homepage": "https://github.com/retgits/akkasls-nodewrapper",
+    "keywords": [
+        "serverless",
+        "akka",
+        "akkasls"
+    ],
+    "author": "retgits",
+    "license": "MIT",
+    "files": [
+        "lib/"
+    ],
+    "dependencies": {
+        "shelljs": "^0.8.4"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.2.14",
+        "@types/mocha": "^8.2.0",
+        "@types/node": "^12.11.7",
+        "@types/shelljs": "^0.8.8",
+        "@typescript-eslint/eslint-plugin": "^4.1.1",
+        "@typescript-eslint/parser": "^4.1.1",
+        "chai": "^4.2.0",
+        "eslint": "^7.9.0",
+        "mocha": "^8.2.1",
+        "standard-version": "^9.0.0",
+        "ts-node": "^9.1.1",
+        "typescript": "^4.0.2"
+    }
+}
