@@ -1,6 +1,6 @@
 {
     "name": "@retgits/akkasls-nodewrapper",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "A NodeJS wrapper for the Akka Serverless CLI",
     "scripts": {
         "pretest": "npm run lint",
