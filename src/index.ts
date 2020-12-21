@@ -15,3 +15,5 @@ export * from './datatypes/converter';
 
 // Export command
 export * from './shell/command';
+export { ShellResult } from './shell/datatypes';
+export { shell } from './shell/shell';
