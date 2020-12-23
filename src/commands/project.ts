@@ -27,7 +27,7 @@ export async function newProject(name: string, description: string, { dryrun, si
     // Create the command
     const command = new Command('akkasls projects new');
     command.addParameter({name: 'name', value: name, addNameToCommand: false});
-    command.addParameter({name: 'description', value: description, addNameToCommand: false});
+    command.addParameter({name: 'description', value: `"${description}"`, addNameToCommand: false});
 
     // Set parameters
     command.setSilent(silent);
