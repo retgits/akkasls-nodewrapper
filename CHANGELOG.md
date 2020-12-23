@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.3...v0.1.4) (2020-12-23)
+
+
+### Bug Fixes
+
+* add quotes to project description ([8d4b982](https://github.com/retgits/akkasls-nodewrapper/commit/8d4b982a952bd64cea4f9ac6ace386dd6ff209b4))
+* add unittests ([2220c8e](https://github.com/retgits/akkasls-nodewrapper/commit/2220c8e323644f750f25f7b0bf0c7510063c975d))
+
 ### [0.1.3](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.2...v0.1.3) (2020-12-21)
 
 ### [0.1.2](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.1...v0.1.2) (2020-12-21)
