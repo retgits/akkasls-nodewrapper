@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.4...v0.1.5) (2021-02-06)
+
+
+### Features
+
+* add env var option to service deploy ([73bd6f8](https://github.com/retgits/akkasls-nodewrapper/commit/73bd6f8aa8f1c0b07682a09698d9f4eb92a30a36))
+* add services logs command ([68029d4](https://github.com/retgits/akkasls-nodewrapper/commit/68029d4c071e1f4f56120d3b433e896fa770b5db))
+
+
+### Bug Fixes
+
+* update to package-lock v2 ([bef9423](https://github.com/retgits/akkasls-nodewrapper/commit/bef9423cdb4c1ef0cf010c71e1fa34eddffc36fa))
+
 ### [0.1.4](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.3...v0.1.4) (2020-12-23)
 
 
