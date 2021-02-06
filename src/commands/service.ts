@@ -1,13 +1,17 @@
 import { Command } from '../shell/command';
-import { CommandInput, ShellResult } from '../shell/datatypes';
+import { CommandInput, EnvVars, ShellResult } from '../shell/datatypes';
 import { Convert } from '../datatypes/converter';
 
-export async function deployService(service: string, image: string, projectID: string, { dryrun, silent, configFile, context }: CommandInput): Promise<ShellResult> {
+export async function deployService(service: string, image: string, projectID: string, { vars }: EnvVars, { dryrun, silent, configFile, context }: CommandInput): Promise<ShellResult> {
     // Create the command
     const command = new Command('akkasls services deploy');
     command.addParameter({ name: 'service', value: service, addNameToCommand: false });
     command.addParameter({ name: 'image', value: image, addNameToCommand: false });
     command.addParameter({ name: 'project', value: projectID, addNameToCommand: true });
+
+    if (vars) {
+        command.addParameter({ name: 'env', value: vars.join(','), addNameToCommand: true });
+    }
 
     // Set parameters
     command.setSilent(silent);

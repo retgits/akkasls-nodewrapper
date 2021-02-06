@@ -30,3 +30,7 @@ export interface CommandInput {
     configFile?: string;
     context?: string;
 }
+
+export interface EnvVars {
+    vars?: string[]
+}
