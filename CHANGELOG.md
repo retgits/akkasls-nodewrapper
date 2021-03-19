@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.5...v0.1.6) (2021-03-19)
+
+
+### Features
+
+* add code generation commands ([4ad6c53](https://github.com/retgits/akkasls-nodewrapper/commit/4ad6c53b343e8111876276e06b4a76d811e05a69))
+
+
+### Bug Fixes
+
+* add outdir to exclude in tsconfig ([ac768c4](https://github.com/retgits/akkasls-nodewrapper/commit/ac768c4895a3cec0b43aabb999156d43f869b751))
+
 ### [0.1.5](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.4...v0.1.5) (2021-02-06)
 
 
