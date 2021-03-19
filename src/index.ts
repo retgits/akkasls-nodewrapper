@@ -2,6 +2,7 @@
 export * from './commands/auth';
 export * from './commands/service';
 export * from './commands/docker';
+export * from './commands/entities';
 export * from './commands/project';
 export * from './commands/roles';
 
