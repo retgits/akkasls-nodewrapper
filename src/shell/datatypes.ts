@@ -40,6 +40,30 @@ export interface CommandInput {
     context?: string;
 }
 
+/**
+ * An interface for flags of `akkasls services logs`
+ * * `cloudstateLogs`: Whether cloudstate sidecar logs should be included
+ * * `lifecycleLogs`: Whether lifecycle logs should be included
+ * * `proxyLogs`: Whether HTTP proxy logs should be included
+ * * `serviceLogs`: Whether service logs should be included
+ * * `tail`: The maximum number of lines to fetch
+ *
+ * @interface LogTypes
+ */
+export interface LogTypes {
+    cloudstateLogs?: boolean;
+    lifecycleLogs?: boolean;
+    proxyLogs?: boolean;
+    serviceLogs?: boolean;
+    tail?: number;
+}
+
+/**
+ * An interface for environment variables in `akkasls service` commands
+ *  * `vars`: an optional array of strings representing key value pairs (like MSG=Hello)
+ *
+ * @interface EnvVars
+ */
 export interface EnvVars {
     vars?: string[]
 }

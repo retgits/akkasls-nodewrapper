@@ -26,5 +26,13 @@ export const config = {
         addInvite: 'akkasls roles invitations invite-user',
         listInvites: 'akkasls roles invitations list -o json',
         listMembers: 'akkasls roles list-bindings -o json'
+    },
+    services: {
+        deployService: 'akkasls services deploy',
+        exposeService: 'akkasls services expose',
+        listServices: 'akkasls services list -o json',
+        deleteService: 'akkasls services undeploy',
+        unexposeService: 'akkasls services unexpose',
+        getServiceLogs: 'akkasls services logs'
     }
 };
