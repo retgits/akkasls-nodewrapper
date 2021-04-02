@@ -11,5 +11,10 @@ export const config = {
         addDockerCredentials: 'akkasls docker add-credentials',
         deleteDockerCredentials: 'akkasls docker delete-credentials',
         listDockerCredentials: 'akkasls docker list-credentials -o json'
+    },
+    entities: {
+        generateNpmJs: 'akkasls entities generate npm js',
+        generateNpxJs: 'npx @lightbend/create-akkasls-entity',
+        generateMavenJava: 'akkasls entities generate maven java'
     }
 };
