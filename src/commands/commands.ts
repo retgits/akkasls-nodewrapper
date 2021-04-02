@@ -6,5 +6,10 @@ export const config = {
         logout: 'akkasls auth logout',
         revokeAuthToken: 'akkasls auth tokens revoke',
         createAuthToken: 'akkasls auth tokens create'
+    },
+    docker: {
+        addDockerCredentials: 'akkasls docker add-credentials',
+        deleteDockerCredentials: 'akkasls docker delete-credentials',
+        listDockerCredentials: 'akkasls docker list-credentials -o json'
     }
 };
