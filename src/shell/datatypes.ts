@@ -24,6 +24,15 @@ export interface IParameter {
     addNameToCommand: boolean
 }
 
+/**
+ * An interface for global flags of `akkasls`
+ *  * `dryrun`: print the command but do not execute it
+ *  * `silent`: do not print any intermediate output and only return the result
+ *  * `configFile`: the config file to use (default "~/.akkaserverless/config.yaml")
+ *  * `context`: the configutation context to use
+ *
+ * @interface CommandInput
+ */
 export interface CommandInput {
     dryrun?: boolean;
     silent?: boolean;
