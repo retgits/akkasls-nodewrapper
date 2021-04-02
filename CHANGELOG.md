@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.6...v0.1.7) (2021-04-02)
+
+
+### Bug Fixes
+
+* update comments for auth ([290436e](https://github.com/retgits/akkasls-nodewrapper/commit/290436e6e974104b08bc11c087c9114d3a0ad151))
+* update comments for docker commands ([5152f50](https://github.com/retgits/akkasls-nodewrapper/commit/5152f50fa96f6ff2817affb885ac1f2be79c4714))
+* update comments for entities ([c785b85](https://github.com/retgits/akkasls-nodewrapper/commit/c785b854fd469213844c33504902b4c334b9ef28))
+* update comments for project ([49f236f](https://github.com/retgits/akkasls-nodewrapper/commit/49f236fe0d88c4b84f63964660a9797173d5e69a))
+* update comments for roles ([aa7b7aa](https://github.com/retgits/akkasls-nodewrapper/commit/aa7b7aae024302d3cac3873ebc6afba0f40dfd96))
+* update comments for services ([b4df9d1](https://github.com/retgits/akkasls-nodewrapper/commit/b4df9d1c567bc07122430f364081cafb186ef8d4))
+* update datatypes export ([efba986](https://github.com/retgits/akkasls-nodewrapper/commit/efba986e29ee8ace48c9a4c8724c52dc22ddc256))
+
 ### [0.1.6](https://github.com/retgits/akkasls-nodewrapper/compare/v0.1.5...v0.1.6) (2021-03-19)
 
 
