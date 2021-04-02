@@ -16,5 +16,9 @@ export const config = {
         generateNpmJs: 'akkasls entities generate npm js',
         generateNpxJs: 'npx @lightbend/create-akkasls-entity',
         generateMavenJava: 'akkasls entities generate maven java'
+    },
+    projects: {
+        newProject: 'akkasls projects new',
+        listProjects: 'akkasls projects list -o json'
     }
 };
