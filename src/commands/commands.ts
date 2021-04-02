@@ -20,5 +20,11 @@ export const config = {
     projects: {
         newProject: 'akkasls projects new',
         listProjects: 'akkasls projects list -o json'
+    },
+    roles: {
+        deleteInvite: 'akkasls roles invitations delete',
+        addInvite: 'akkasls roles invitations invite-user',
+        listInvites: 'akkasls roles invitations list -o json',
+        listMembers: 'akkasls roles list-bindings -o json'
     }
 };
