@@ -1,0 +1,32 @@
+import { expect } from 'chai';
+import { describe } from 'mocha';
+import { Command } from '../src/command';
+
+describe('Command test', () => {
+    it('Should create a new command', () => {
+        const cmd = new Command({command: 'ls -alh', options: {}},{});
+        expect(cmd).to.not.be.null;
+        expect(cmd.command).to.eql('ls -alh');
+        expect(cmd.toString()).to.eql('ls -alh');
+    });
+
+    it('Should run a new command', async () => {
+        const cmd = new Command({command: 'ls -alh', options: {}},{});
+        const result = await cmd.run();
+        expect(result.code).to.be.undefined;
+    });
+
+    it('Should allow dryrun', async () => {
+        const cmd = new Command({command: 'ls -alh', options: {}},{dryrun: true});
+        const result = await cmd.run();
+        expect(result.stdout).to.eql('ls -alh');
+    });
+
+    it('Should accept parameters', async () => {
+        const cmd = new Command({command: 'ls', options: {alh: {addFlagName: false, name: 'alh', value: '-alh'}}},{});
+        const result = await cmd.run();
+        expect(cmd.command).to.eql('ls');
+        expect(cmd.toString()).to.eql('ls -alh');
+        expect(result.code).to.be.undefined;
+    });
+});

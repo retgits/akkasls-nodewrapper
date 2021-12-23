@@ -1,0 +1,74 @@
+import { expect } from 'chai';
+import { describe } from 'mocha';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { Command } from '../src/command';
+import { listCredentialsCommand, handleDockerCommand, addCredentialsCommand, deleteCredentialsCommand} from '../src/docker';
+
+describe('Docker test', () => {
+    it('Should dryrun the list docker credentials', async () => {
+        const cmd = listCredentialsCommand;
+        cmd.options.project.value = 'test';
+        const result = await handleDockerCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls docker list-credentials -o json --project test');
+    });
+
+    it('Should list docker credentials', async () => {
+        await new Command({ command: 'akkasls docker list-credentials -o json > ./test/cases/dockercredentials.json', options: {} }, {}).run();
+        const cmd = listCredentialsCommand;
+        cmd.options.project.value = 'test';
+        const result = await handleDockerCommand(cmd, {});
+        expect(result).to.not.be.null;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(JSON.parse(result.stdout!)).to.eql(JSON.parse(readFileSync(join(__dirname, 'cases', 'dockercredentials.json')).toString()));
+    });
+
+    it('Should dryrun the add docker credentials command', async () => {
+        const cmd = addCredentialsCommand;
+        cmd.options.project.value = 'test';
+        cmd.options.dockerServer.value = 'https://mydockerregistry.com';
+        delete cmd.options.dockerPassword;
+        delete cmd.options.dockerEmail;
+        delete cmd.options.dockerUsername;
+        const result = await handleDockerCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls docker add-credentials -o json --docker-server https://mydockerregistry.com --project test');
+    });
+
+    it('Should dryrun the delete docker credentials command', async () => {
+        const cmd = deleteCredentialsCommand;
+        cmd.options.project.value = 'test';
+        cmd.options.credentialID.value = 'cred12345';
+        const result = await handleDockerCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls docker delete-credentials -o json cred12345 --project test');
+    });
+
+    it('Should create and delete docker credentials', async () => {
+        let credvalue: string | undefined = '';
+        const cmd = addCredentialsCommand;
+        cmd.options.project.value = 'test';
+        cmd.options.dockerServer.value = 'https://mydockerregistry.com';
+        delete cmd.options.dockerPassword;
+        delete cmd.options.dockerEmail;
+        delete cmd.options.dockerUsername;
+        const result = await handleDockerCommand(cmd, {});
+        expect(result).to.not.be.null;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const parts = result.stderr!.split(' ');
+        const x = parts.pop();
+        if(x !== undefined) {
+            credvalue = x.trim();
+        }
+
+        after(async ()=>{
+            const cmd = deleteCredentialsCommand;
+            cmd.options.project.value = 'test';
+            cmd.options.credentialID.value = credvalue as string;
+            const result = await handleDockerCommand(cmd, {});
+            console.log(result);
+            expect(result).to.not.be.null;
+        });
+    });
+});

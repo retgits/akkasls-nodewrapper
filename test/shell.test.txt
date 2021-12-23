@@ -1,0 +1,40 @@
+import { expect } from 'chai';
+import { describe } from 'mocha';
+import { shell } from '../src/shell';
+
+describe('Shell test', () => {
+    it('Should validate operating systems', () => {
+        const currOS = process.platform;
+		if(currOS === 'win32') {
+			expect(shell.isWindows()).equals(true);
+			expect(shell.isUnix()).equals(false);
+			expect(shell.isSupported()).equals(true);
+		} else {
+			expect(shell.isWindows()).equals(false);
+			expect(shell.isUnix()).equals(true);
+			expect(shell.isSupported()).equals(true);
+		}
+    });
+
+    it('Should return that echo exists in PATH', async () => {
+        expect(await shell.which('echo')).to.contain('/bin/echo');
+    });
+
+    it('Should return that foobar not exists in PATH', async () => {
+        expect(await shell.which('foobar')).to.be.null;
+    });
+
+    it('Should not work for foobar', async () => {
+        const result = await shell.exec('foobar');
+        expect(result.code).to.contain(127);
+        expect(result.stderr).to.contain('foobar: command not found');
+    });
+
+    it('Should work for ls with a working dir', async () => {
+        const opts = shell.execOpts();
+        opts.cwd = './test';
+        const result = await shell.exec('ls -alh', opts);
+        expect(result.code).to.eql(undefined);
+        expect(result.stdout).to.contain('shell.test.ts');
+    });
+});

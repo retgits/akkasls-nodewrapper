@@ -121,3 +121,6 @@ Thumbs.db
 
 # Ignore built ts files
 lib/**/*
+
+# Ignore test case files
+/test/cases/*.json

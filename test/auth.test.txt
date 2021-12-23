@@ -1,0 +1,103 @@
+import chai, { expect } from 'chai';
+import chaialmost from 'chai-almost';
+import { describe } from 'mocha';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { createAuthTokenCommand, currentLoginCommand, handleAuthCommand, listAuthTokensCommand, loginCommand, logoutCommand, revokeAuthTokenCommand, signupCommand } from '../src/auth';
+import { Command } from '../src/command';
+
+describe('Auth test', () => {
+    it('Should handle login', async () => {
+        const cmd = loginCommand;
+        const result = await handleAuthCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls auth login');
+    });
+
+    it('Should handle logout', async () => {
+        const cmd = logoutCommand;
+        const result = await handleAuthCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls auth logout');
+    });
+
+    it('Should handle signup', async () => {
+        const cmd = signupCommand;
+        const result = await handleAuthCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls auth signup');
+    });
+
+    it('Should dryrun the current logged in user command', async () => {
+        const cmd = currentLoginCommand;
+        const result = await handleAuthCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls auth current-login -o json');
+    });
+
+    it('Should get the current logged in user command', async () => {
+        await new Command({ command: 'akkasls auth current-login -o json > ./test/cases/currentlogin.json', options: {} }, {}).run();
+        const cmd = currentLoginCommand;
+        const result = await handleAuthCommand(cmd, {});
+        expect(result).to.not.be.null;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(JSON.parse(result.stdout!)).to.eql(JSON.parse(readFileSync(join(__dirname, 'cases', 'currentlogin.json')).toString()));
+    });
+
+    it('Should dryrun the list auth tokens command', async () => {
+        const cmd = listAuthTokensCommand;
+        const result = await handleAuthCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls auth tokens list -o json');
+    });
+
+    it('Should list auth tokens command', async () => {
+        chai.use(chaialmost(10000));
+        await new Command({command: 'akkasls auth tokens list -o json > ./test/cases/authtokenslist.json', options: {}},{}).run();
+        const cmd = listAuthTokensCommand;
+        const result = await handleAuthCommand(cmd, {});
+        expect(result).to.not.be.null;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(JSON.parse(result.stdout!)).to.have.almost.eql(JSON.parse(readFileSync(join(__dirname, 'cases', 'authtokenslist.json')).toString()));
+    });
+
+    it('Should dryrun the create auth tokens command', async () => {
+        const cmd = createAuthTokenCommand;
+        cmd.options.type.value = 'refresh';
+        cmd.options.scopes.value = 'all';
+        cmd.options.description.value = 'Token for use by CI/CD system';
+        const result = await handleAuthCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls auth tokens create -o json --type refresh --scopes all --description "Token for use by CI/CD system"');
+    });
+
+    it('Should dryrun the revoke auth tokens command', async () => {
+        const cmd = revokeAuthTokenCommand;
+        cmd.options.token.value = 'Token12345';
+        const result = await handleAuthCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls auth tokens revoke -o json Token12345');
+    });
+
+    it('Should create and delete auth tokens', async () => {
+        let tknvalue = '';
+        const cmd = createAuthTokenCommand;
+        cmd.options.type.value = 'refresh';
+        cmd.options.scopes.value = 'all';
+        cmd.options.description.value = 'Token12345';
+        const result = await handleAuthCommand(cmd, {});
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.contain('Token12345');
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const tkn = JSON.parse(result.stdout!);
+        const parts = tkn.token.name.split('/');
+        tknvalue = parts.pop();
+
+        after(async ()=>{
+            const cmd = revokeAuthTokenCommand;
+            cmd.options.token.value = tknvalue;
+            const result = await handleAuthCommand(cmd, {});
+            expect(result).to.not.be.null;
+        });
+    });
+});

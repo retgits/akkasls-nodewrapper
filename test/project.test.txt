@@ -1,0 +1,81 @@
+import { expect } from 'chai';
+import { describe } from 'mocha';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { Command } from '../src/command';
+import { listProjectsCommand, handleProjectCommand, getProjectCommand, newProjectCommand, deleteProjectCommand } from '../src/project';
+
+describe('Project test', () => {
+    it('Should dryrun the list projects command', async () => {
+        const cmd = listProjectsCommand;
+        const result = await handleProjectCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls projects list -o json');
+    });
+
+    it('Should list projects', async () => {
+        await new Command({ command: 'akkasls projects list -o json > ./test/cases/projects.json', options: {} }, {}).run();
+        const cmd = listProjectsCommand;
+        const result = await handleProjectCommand(cmd, {});
+        expect(result).to.not.be.null;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(JSON.parse(result.stdout!)).to.eql(JSON.parse(readFileSync(join(__dirname, 'cases', 'projects.json')).toString()));
+    });
+
+    it('Should dryrun the get project command', async () => {
+        const cmd = getProjectCommand;
+        cmd.options.project.value = 'test';
+        const result = await handleProjectCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls projects get -o json --project test');
+    });
+
+    it('Should get a project', async () => {
+        await new Command({ command: 'akkasls projects get -o json --project test > ./test/cases/project.json', options: {} }, {}).run();
+        const cmd = getProjectCommand;
+        cmd.options.project.value = 'test';
+        const result = await handleProjectCommand(cmd, {});
+        expect(result).to.not.be.null;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        expect(JSON.parse(result.stdout!)).to.eql(JSON.parse(readFileSync(join(__dirname, 'cases', 'project.json')).toString()));
+    });
+
+    it('Should dryrun the new project command', async () => {
+        const cmd = newProjectCommand;
+        cmd.options.name.value = 'testing';
+        cmd.options.description.value = 'something cool';
+        cmd.options.region.value = 'us-east1';
+        const result = await handleProjectCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls projects new -o json testing "something cool" --region us-east1');
+    });
+
+    it('Should dryrun the delete project command', async () => {
+        const cmd = deleteProjectCommand;
+        cmd.options.project.value = 'testing';
+        const result = await handleProjectCommand(cmd, { dryrun: true });
+        expect(result).to.not.be.null;
+        expect(result.stdout).to.eql('akkasls projects delete -o json --project testing');
+    });
+
+    it('Should create and delete a project', async () => {
+        let pid = '';
+        const cmd = newProjectCommand;
+        cmd.options.name.value = 'testing';
+        cmd.options.description.value = 'something cool';
+        cmd.options.region.value = 'us-east1';
+        const result = await handleProjectCommand(cmd, {});
+        expect(result).to.not.be.null;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const tkn = JSON.parse(result.stdout!);
+        const parts = tkn.name.split('/');
+        pid = parts.pop();
+
+        after(async ()=>{
+            const cmd = deleteProjectCommand;
+            cmd.options.project.value = pid;
+            const result = await handleProjectCommand(cmd, { disablePrompt: true });
+            expect(result).to.not.be.null;
+        });
+    });
+});
